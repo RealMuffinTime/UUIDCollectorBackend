@@ -33,6 +33,18 @@ app.get("/api/key/:key", ({params, set}) => {
     return {status: 200, length: counter};
 });
 
+app.get("/api/key/:key/length", ({params, set}) => {
+    const key = db.getKey(params.key);
+    if (!key) {set.status = 401; return {status: 401, message: "Invalid authentication key."};}
+
+    const users = db.getUsers();
+    let counter = 0;
+    for (let user in users)
+        if (users[user].indexBy == key.owner) counter++;
+
+    return counter;
+});
+
 app.get("/api/user/total/length", () => {
     return {status: 200, length: db.getUsers().length};
 });
