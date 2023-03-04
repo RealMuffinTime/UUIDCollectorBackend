@@ -6,19 +6,23 @@ const db = new UDB(),
 
 db.init();
 
-app.get("/api/user/index/:uuid/:username", ({params, query, set}) => {
-    console.log(query.key)
+app.post("/api/user/index", ({body, query, set}) => {
     if (!query.key) {set.status = 401; return {status: 401, message: "Invalid authentication key."};}
     const key = db.getKey(query.key);
-    console.log(key)
     if (!key) {set.status = 401; return {status: 401, message: "Invalid authentication key."};}
-    const user: User = {
-        uuid: params.uuid,
-        username: params.username,
-        indexBy: key.owner
+
+    const users = JSON.parse(body as any).users;
+    for (let user in users) {
+        const userObj: User = {
+            uuid: user,
+            username: users[user],
+            indexBy: key.owner
+        }
+
+        db.addUser(userObj, key.owner);
     }
 
-    db.addUser(user, key.owner);
+    return {status: 200, message: "Thank you!", length: users.length};
 });
 
 app.get("/api/key/:key", ({params, set}) => {
@@ -51,4 +55,8 @@ app.get("/api/user/total/length", () => {
 
 app.get("/api/user/total/json", () => {
     return {status: 200, users: db.getUsers()};
+});
+
+app.post("/test", ({body}) => {
+    console.log(body)
 });
