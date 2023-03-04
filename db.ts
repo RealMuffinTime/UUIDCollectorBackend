@@ -8,11 +8,12 @@ export class UDB<T = any> {
     }
 
     init() {
-        this.db.run(`CREATE TABLE IF NOT EXISTS users ("uuid" varchar(32) NOT NULL, "username" text NOT NULL, PRIMARY KEY ("uuid"));`);
+        this.db.run(`CREATE TABLE IF NOT EXISTS users ("uuid" varchar(32) NOT NULL, "username" text NOT NULL, "indexBy" varchar(32) NOT NULL, PRIMARY KEY ("uuid"));`);
+        this.db.run(`CREATE TABLE IF NOT EXISTS keys ("key" varchar(32) NOT NULL, "owner" varchar(32) NOT NULL, PRIMARY KEY ("key"));`);
     }
 
-    addUser(user: User) { // @ts-ignore
-        this.db.run(`INSERT OR REPLACE INTO users VALUES ($uuid, $username)`, {$uuid: user.uuid, $username: user.username});
+    addUser(user: User, indexedBy: string) { // @ts-ignore
+        this.db.run(`INSERT OR REPLACE INTO users VALUES ($uuid, $username, $indexedBy)`, {$uuid: user.uuid, $username: user.username, $indexedBy: indexedBy});
     }
 
     getUsers() { // @ts-ignore
@@ -23,9 +24,19 @@ export class UDB<T = any> {
 
         return users;
     }
+
+    addKey(owner: string, key: string) { // @ts-ignore
+        this.db.run(`INSERT OR REPLACE INTO keys VALUES ($key, $owner)`, {$key: key, $owner: owner});
+        return {key: key, owner: owner};
+    }
+
+    getKey(key: string) {
+        return this.db.query(`SELECT * FROM keys WHERE key = $key`).get({$key: key});
+    }
 }
 
 export type User = {
     uuid: string;
     username: string;
+    indexBy: string;
 };
