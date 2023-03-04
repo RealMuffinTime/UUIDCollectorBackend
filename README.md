@@ -13,3 +13,6 @@ bun run index.ts
 ```
 
 This project was created using `bun init` in bun v0.5.7. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+
+## Authentication Keys
+In order for users to use this server, they need to own an authentication key. You can generate one by executing `bun addKey.ts <UUID of the Minecraft player>`.
