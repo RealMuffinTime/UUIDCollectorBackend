@@ -59,6 +59,3 @@ app.get("/api/user/total/json", () => {
     return {status: 200, users: db.getUsers()};
 });
 
-app.post("/test", ({body}) => {
-    console.log(body)
-});
