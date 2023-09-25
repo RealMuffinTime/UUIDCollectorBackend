@@ -1,4 +1,4 @@
-# ucb
+# UUIDCollectorBackend
 
 To install dependencies:
 
