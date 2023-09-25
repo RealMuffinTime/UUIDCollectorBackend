@@ -33,6 +33,11 @@ export class UDB<T = any> {
     getKey(key: string) {
         return this.db.query(`SELECT * FROM keys WHERE key = $key`).get({$key: key});
     }
+	
+	removeKey(key: string) {
+		this.db.run(`DELETE FROM keys WHERE key = $key`).get({$key: key});
+		return {key: key};
+	}
 }
 
 export type User = {
