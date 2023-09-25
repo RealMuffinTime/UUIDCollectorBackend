@@ -8,9 +8,9 @@ const db = new UDB(),
 
 db.init();
 
-app.post("/api/user/index", ({body, query, set}) => {
-    if (!query.key) {set.status = 401; return {status: 401, message: "Invalid authentication key."};}
-    const key = db.getKey(query.key);
+app.post("/api/donate/:key", ({params, body, set}) => {
+    if (!params.key) {set.status = 401; return {status: 401, message: "Invalid authentication key."};}
+    const key = db.getKey(params.key);
     if (!key) {set.status = 401; return {status: 401, message: "Invalid authentication key."};}
 
     const users = JSON.parse(body as any).users;
