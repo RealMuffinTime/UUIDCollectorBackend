@@ -23,6 +23,8 @@ app.post("/api/user/index", ({body, query, set}) => {
 
         db.addUser(userObj, key.owner);
     }
+    
+    console.log("Retrieved new UUIDs by " + key.owner + ".")
 
     return {status: 200, message: "Thank you!", length: users.length};
 });
@@ -36,6 +38,8 @@ app.get("/api/key/:key", ({params, set}) => {
     for (let user in users)
         if (users[user].indexBy == key.owner) counter++;
 
+    console.log("Returned amount of listed user for " + key.owner + ".")
+    
     return {status: 200, length: counter};
 });
 
@@ -47,15 +51,20 @@ app.get("/api/key/:key/length", ({params, set}) => {
     let counter = 0;
     for (let user in users)
         if (users[user].indexBy == key.owner) counter++;
+    
+    console.log("Returned amount of listed user length for " + key.owner + ".")
 
     return counter;
 });
 
 app.get("/api/user/total/length", () => {
+    console.log("Returned all user length.")
     return {status: 200, length: db.getUsers().length};
 });
 
 app.get("/api/user/total/json", () => {
+    console.log("Returned all user.")
     return {status: 200, users: db.getUsers()};
 });
 
+console.log("Initialized.")
