@@ -3,8 +3,7 @@ import {UDB, User} from "./db.ts";
 
 const db = new UDB(),
     app = new Elysia().listen({
-        port: 9999,
-        hostname: "localhost"
+        port: 9999
     });
 
 db.init();
