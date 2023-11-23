@@ -35,7 +35,7 @@ export class UDB<T = any> {
     }
 	
 	removeKey(key: string) {
-		this.db.run(`DELETE FROM keys WHERE key = $key`).get({$key: key});
+		this.db.run(`DELETE FROM keys WHERE key = $key`);
 		return {key: key};
 	}
 }

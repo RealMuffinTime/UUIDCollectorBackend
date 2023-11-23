@@ -1,5 +1,5 @@
 import {Elysia} from "elysia";
-import {UDB, User} from "./db.ts";
+import {UDB, User} from "./db.js";
 
 const db = new UDB(),
     app = new Elysia().listen({
