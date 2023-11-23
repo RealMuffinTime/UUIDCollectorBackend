@@ -36,6 +36,8 @@ app.post("/api/donate/:key", ({params, body, set}) => {
 app.get("/api/key/:key", ({params, set}) => {
     const key = db.getKey(params.key);
     if (!key) {set.status = 401; return {status: 401, message: "Invalid authentication key."};}
+
+    console.log("Returned amount of listed user for " + key.owner + ".")
     
     return {status: 200, length: db.getUsers().length};
 });
