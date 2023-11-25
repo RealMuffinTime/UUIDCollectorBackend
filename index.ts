@@ -8,6 +8,11 @@ const db = new UDB(),
 
 db.init();
 
+function timeStamp() {
+    let date = new Date();
+    return `[${date.toLocaleDateString("sv-SE")} ${date.toLocaleTimeString("sv-SE")}] `; 
+}
+
 app.post("/api/donate/:key", ({params, body, set}) => {
     if (!params.key) {set.status = 401; return {status: 401, message: "Invalid authentication key."};}
     const key = db.getKey(params.key);
@@ -28,7 +33,7 @@ app.post("/api/donate/:key", ({params, body, set}) => {
 
     const after_length = db.getUsers().length;
     
-    console.log("Retrieved new UUIDs by " + key.owner + ".")
+    console.log(timeStamp() + "Retrieved new UUIDs by " + key.owner + ".")
 
     return {status: 200, message: "Thank you!", valid: after_length - before_length, length: after_length};
 });
@@ -37,19 +42,19 @@ app.get("/api/key/:key", ({params, set}) => {
     const key = db.getKey(params.key);
     if (!key) {set.status = 401; return {status: 401, message: "Invalid authentication key."};}
 
-    console.log("Returned amount of listed user for " + key.owner + ".")
+    console.log(timeStamp() + "Returned amount of listed user for " + key.owner + ".")
     
     return {status: 200, length: db.getUsers().length};
 });
 
 app.get("/api/user/total/length", () => {
-    console.log("Returned all user length.")
+    console.log(timeStamp() + "Returned all user length.")
     return {status: 200, length: db.getUsers().length};
 });
 
 app.get("/api/user/total/json", () => {
-    console.log("Returned all user.")
+    console.log(timeStamp() + "Returned all user.")
     return {status: 200, users: db.getUsers()};
 });
 
-console.log("Initialized.")
+console.log(timeStamp() + "Initialized.")
