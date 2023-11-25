@@ -33,7 +33,7 @@ app.post("/api/donate/:key", ({params, body, set}) => {
 
     const after_length = db.getUsers().length;
     
-    console.log(timeStamp() + "Retrieved new UUIDs by " + key.owner + ".")
+    console.log(timeStamp() + `Retrieved ${after_length - before_length} new UUIDs by ` + key.owner + ".")
 
     return {status: 200, message: "Thank you!", valid: after_length - before_length, length: after_length};
 });
@@ -42,7 +42,7 @@ app.get("/api/key/:key", ({params, set}) => {
     const key = db.getKey(params.key);
     if (!key) {set.status = 401; return {status: 401, message: "Invalid authentication key."};}
 
-    console.log(timeStamp() + "Returned amount of listed user for " + key.owner + ".")
+    console.log(timeStamp() + `Returned amount of ${db.getUsers().length} listed user for ` + key.owner + ".")
     
     return {status: 200, length: db.getUsers().length};
 });
