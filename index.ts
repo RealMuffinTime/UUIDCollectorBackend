@@ -33,7 +33,7 @@ app.post("/api/donate/:key", ({params, body, set}) => {
 
     const after_length = db.getUsers().length;
     
-    console.log(timeStamp() + `Retrieved ${after_length - before_length} new UUIDs by ` + key.owner + ".")
+    console.log(timeStamp() + `Retrieved ${users.length} UUIDs, with ${after_length - before_length} valid UUIDs by ` + key.owner + ".")
 
     return {status: 200, message: "Thank you!", valid: after_length - before_length, length: after_length};
 });
@@ -48,7 +48,7 @@ app.get("/api/key/:key", ({params, set}) => {
 });
 
 app.get("/api/user/total/length", () => {
-    console.log(timeStamp() + "Returned all user length.")
+    console.log(timeStamp() + `Returned ${db.getUsers().length} user length.`)
     return {status: 200, length: db.getUsers().length};
 });
 
