@@ -52,9 +52,12 @@ app.get("/api/user/total/length", () => {
     return {status: 200, length: db.getUsers().length};
 });
 
+// This endpoint should not be exposed...
+/*
 app.get("/api/user/total/json", () => {
     console.log(timeStamp() + "Returned all user.")
     return {status: 200, users: db.getUsers()};
 });
+*/
 
 console.log(timeStamp() + "Initialized.")
