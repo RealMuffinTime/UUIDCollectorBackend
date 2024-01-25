@@ -1,6 +1,8 @@
 import {Elysia} from "elysia";
 import {UDB, User} from "./db.js";
 
+// TODO unify endpoints
+
 const db = new UDB(),
     app = new Elysia()
 	.onError(({ code }) => {
@@ -37,7 +39,7 @@ app.post("/api/donate/:key", ({params, body, set}) => {
 
     const after_length = db.getUsers().length;
     
-    console.log(timeStamp() + `Retrieved ${users.length} UUIDs, with ${after_length - before_length} valid UUIDs by ` + key.owner + ".")
+    console.log(timeStamp() + `Retrieved ${Object.keys(users).length} from which ${after_length - before_length} are valid UUIDs by ` + key.owner + ".")
 
     return {status: 200, message: "Thank you!", valid: after_length - before_length, length: after_length};
 });
